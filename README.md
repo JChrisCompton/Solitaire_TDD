@@ -1,2 +1,2 @@
-# Solitaire_TDD
-Solitaire program without user interface, this is just for TDD practice.
+# SolitareTDD
+Just some TDD practice for the group
