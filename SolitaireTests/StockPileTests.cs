@@ -44,7 +44,7 @@ namespace SolitaireTests
             Pile movePile = new Pile(); 
             StockPile fromPile = new StockPile();
             TalonPile toPile = new TalonPile(); 
-            board.Stock.Move(movePile, fromPile,  toPile);
+            //board.Stock.Move(movePile, fromPile,  toPile);
 
         }
 

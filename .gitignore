@@ -396,3 +396,15 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/SolitaireLibrary/obj/Debug/net6.0/ref/SolitaireLibrary.dll
+/SolitaireLibrary/obj/Debug/net6.0/refint/SolitaireLibrary.dll
+/SolitaireLibrary/obj/SolitaireLibrary.csproj.nuget.dgspec.json
+/SolitaireLibrary/obj/project.nuget.cache
+/SolitaireLibrary/obj/project.assets.json
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.pdb
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.GeneratedMSBuildEditorConfig.editorconfig
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.dll
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.csproj.FileListAbsolute.txt
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.csproj.CoreCompileInputs.cache
+/SolitaireLibrary/obj/Debug/net6.0/SolitaireLibrary.assets.cache
+/SolitaireLibrary/obj/SolitaireLibrary.csproj.nuget.g.props
