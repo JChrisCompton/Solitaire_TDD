@@ -129,7 +129,7 @@ namespace SolitaireLibrary
             string ret = $"Pile name == {pile.GetType().Name} size == {pile.CardList.Count.ToString()}:  ";
             if (pile == null)
             {
-                ret = pile.GetType().Name.ToString();
+                ret = pile.GetType().Name.ToString(); // this work if it is null?
                 return $"Pile  {ret}  has no cards!";
             }
                 
