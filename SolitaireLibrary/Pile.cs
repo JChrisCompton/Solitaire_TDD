@@ -52,11 +52,24 @@ namespace SolitaireLibrary
             Debug.Print($"* fromPile's type == " + fromPileType + ".");
             Debug.Print($"*  toPile's type  == " + destPileType + ".");
 
-            // Ken - I assume it is best to now call the private specialized proc depending on what is being moved where... b/c otherwise this proc becomes RATHER long.
+            // Ken - I assume it is best to now call the private specialized proc
+            // depending on what is being moved where... b/c otherwise this proc becomes RATHER long.
 
-            if (ret == true)
+            // Source pile has at least one card
+            if (fromPile.CardList.Count < 1) { return false; }  /* TODO: log error */
+
+            // Move from Stock to Talon
+            if (fromPileType == "StockPile" &&
+                destPileType == "TalonPile")
             {   // no errors yet
                 ret = MoveStockToTalon((StockPile)fromPile, (TalonPile)toPile, 0);
+                if(ret) { /* TODO: log move */ }
+            }
+            else if (fromPileType == "StockPile"
+                && destPileType != "TalonPile")
+            {   // Only valid destination from Stock is Talon, so this is an error
+                ret = false;
+                /* TODO: log error */
             }
 
             return ret;

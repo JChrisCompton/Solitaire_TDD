@@ -44,6 +44,25 @@ namespace SolitaireTests
             Assert.AreEqual(testPile.CardList.Count(), 1);
         }
         [TestMethod]
+        public void MoveTo_FailWhenSourceHasNoCards()
+        {
+            var stockPile = new StockPile();
+            var talonPile = new TalonPile();
+
+            talonPile.CardList.Add(new Card(5, SuitType.Diamond, true));
+            talonPile.CardList.Add(new Card(6, SuitType.Diamond, true));
+            talonPile.CardList.Add(new Card(7, SuitType.Diamond, true));
+
+            int stockPileHeightBefore = stockPile.CardList.Count();
+            //int talonPileHeightBefore = stockPile.CardList.Count();
+
+            // Make the move
+            bool isSuccess = stockPile.MoveTo(talonPile);
+
+            // was there an error, or success?
+            Assert.IsFalse(isSuccess);
+        }
+        [TestMethod]
         public void StockToTalon_MoveOne_CheckRemoval()
         {
             // Moving from Stock to Talon
@@ -147,6 +166,48 @@ namespace SolitaireTests
             Assert.AreEqual(a.isFaceUp, b.isFaceUp);
 
             //Assert.AreEqual(1,2);
+        }
+        [TestMethod]
+        public void StockToStock_InValidMove()
+        {
+            var stockPile = new StockPile();
+            var stockPile2 = new StockPile();
+
+            stockPile.CardList.Add(new Card(2, SuitType.Spade, false));  // card to move
+
+            // Make the illegal move
+            bool isSuccess = stockPile.MoveTo(stockPile2);
+
+            // was there an error, or success?
+            Assert.IsFalse(isSuccess);
+        }
+        [TestMethod]
+        public void StockToFoundation_InValidMove()
+        {
+            var stockPile = new StockPile();
+            var foundationPile = new FoundationPile();
+
+            stockPile.CardList.Add(new Card(2, SuitType.Spade, false));  // card to move
+
+            // Make the illegal move
+            bool isSuccess = stockPile.MoveTo(foundationPile);
+
+            // was there an error, or success?
+            Assert.IsFalse(isSuccess);
+        }
+        [TestMethod]
+        public void StockToTableau_InValidMove()
+        {
+            var stockPile = new StockPile();
+            var tableauPile = new TableauPile();
+
+            stockPile.CardList.Add(new Card(2, SuitType.Spade, false));  // card to move
+
+            // Make the illegal move
+            bool isSuccess = stockPile.MoveTo(tableauPile);
+
+            // was there an error, or success?
+            Assert.IsFalse(isSuccess);
         }
     }
 }
