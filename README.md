@@ -1,12 +1,18 @@
 # SolitareTDD
-Just some TDD practice for the group, and this time solitaire was not mis-typed  
+Just some TDD practice for the group, and this time solitaire was not mis-typed! :-)  
 Design decisions are written in MS Word saved as .htm  and is located here: JChrisCompton » Solitaire_TDD » SolitaireTDD » TDD Design Decisions_files
 
-#Markdown document 
+---
 
-This is a Markdown document for a throw-away project that isn't really very object oriented.  But it will server to show some examples
+# Markdown practice 
+This is practice with markdown.
+## This IS NOT related to the TDD project!
 
-##Flowcharts
+
+This is all Markdown practice:
+
+
+## Flowcharts
 
 ```mermaid
 graph LR
