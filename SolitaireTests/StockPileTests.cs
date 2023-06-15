@@ -6,12 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using SolitaireLibrary;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace SolitaireTests
 {
     [TestClass]
     public class StockPileTests
     {
+        private GameBoard board;
+        private StockPile stockPile;
+        private int topCardIndex;
+        [TestInitialize] public void Init() 
+        {
+            board = new GameBoard();
+            stockPile = board.Stock;
+            PopulateStock();
+            topCardIndex = stockPile.CardList.Count -1;
+
+        }
+        private void PopulateStock()
+        {
+            stockPile.CardList.Add(new Card(2, SuitType.Spade, false));
+            stockPile.CardList.Add(new Card(3, SuitType.Spade, false));
+            stockPile.CardList.Add(new Card(4, SuitType.Spade, false));
+        }
         [TestMethod]
         public void StockPileShouldBeCreated()
         {
@@ -56,12 +74,9 @@ namespace SolitaireTests
             // • check that a card is added to the Talon
             Debug.Print("\n\n\n");
 
-            var stockPile = new StockPile();
+            //var stockPile = new StockPile();
             var talonPile = new TalonPile();
-
-            stockPile.CardList.Add(new Card(2, SuitType.Spade, false));
-            stockPile.CardList.Add(new Card(3, SuitType.Spade, false));
-            stockPile.CardList.Add(new Card(4, SuitType.Spade, false));
+            //PopulateStock();
             talonPile.CardList.Add(new Card(5, SuitType.Diamond, true));
             talonPile.CardList.Add(new Card(6, SuitType.Diamond, true));
             talonPile.CardList.Add(new Card(7, SuitType.Diamond, true));
@@ -77,13 +92,16 @@ namespace SolitaireTests
             Assert.AreEqual(stockPileHeightBefore - 1, stockPile.CardList.Count());
             Assert.AreEqual(talonPileHeightBefore + 1, talonPile.CardList.Count());
         }
+
+        
+
         [TestMethod]
         public void StockToTalon_MoveOne_CheckDestination()
         {
             // When moving from Stock to Talon
             // • check that the card is moved to the right place
             // • check that the card is oriented correctly (always face up on the talon)
-            var stockPile = new StockPile();
+            //var stockPile = new StockPile();
             var talonPile = new TalonPile();
 
             stockPile.CardList.Add(new Card(2, SuitType.Spade, false));  // card to move
@@ -194,6 +212,49 @@ namespace SolitaireTests
 
             // was there an error, or success?
             Assert.IsFalse(isSuccess);
+        }
+        [TestMethod]
+        public void TakeFromStockShouldNotBeNull()
+        {
+            Assert.IsNotNull(stockPile.TakeFrom(topCardIndex));
+        }
+        [TestMethod]
+        public void TakeFromStockShouldHave1Card()
+        {
+            Assert.AreEqual(stockPile.TakeFrom(topCardIndex).CardList.Count, 1);
+        }
+        [TestMethod]
+        public void ReturnedCardForTakeFromShouldEqualStartingTopCardOfStock()
+        {
+            var startingTopCard = stockPile.CardList[topCardIndex];
+            var returnPile = stockPile.TakeFrom(topCardIndex);
+            Assert.IsTrue(startingTopCard.Equals(returnPile.CardList.Last()));
+        }
+        [TestMethod]
+        public void TopCardofStockShouldNotBeTheSameAfterTakeFrom()
+        {
+            var startingTopCard = stockPile.CardList[topCardIndex];
+            stockPile.TakeFrom(topCardIndex);
+            var newTopCard = stockPile.CardList.Last();
+            Console.WriteLine(startingTopCard.Value + " " + startingTopCard.Suit);
+            Console.WriteLine(newTopCard.Value + " " + newTopCard.Suit);
+
+            Assert.IsFalse(startingTopCard.Equals(newTopCard)); 
+        }
+        [TestMethod]
+        public void TakeFromEmptyStockPileShouldReturnNull()
+        {
+            stockPile = new StockPile();
+            Assert.IsNull(stockPile.TakeFrom(0));
+        }
+        [TestMethod]
+        public void TakeFromStockPileShouldReturnCardsFaceUp()
+        {
+            var returnPile = stockPile.TakeFrom(topCardIndex);
+            foreach( Card card in returnPile.CardList)
+            {
+                Assert.IsTrue(card.isFaceUp);
+            }
         }
 
     }
