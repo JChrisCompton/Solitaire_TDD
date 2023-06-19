@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SolitaireLibrary;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
+//using System.Runtime.CompilerServices;
 
 namespace SolitaireTests
 {
