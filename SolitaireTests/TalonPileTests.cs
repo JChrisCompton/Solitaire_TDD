@@ -44,28 +44,64 @@ namespace SolitaireTests
                 Assert.AreEqual(card, talonPile.CardList.Last());
             }
         }
-       
-        [TestMethod]
-        public void MoveToShouldNotAcceptNullSourcePile()
+        [TestClass]
+        public class TalonPileMoveToTests
         {
-            Pile? sourcePile = null;
-            Assert.IsFalse(MoveStockToTalon(sourcePile, movePile));
-        }
-        [TestMethod]
-        public void MoveToShouldNotAcceptAnEmptyMovePile()
-        {
-            Assert.IsFalse(MoveStockToTalon(sourcePile, movePile));
-        }
-        [TestMethod]
-        public void MoveToShouldOnlyAcceptStockAsSourcePile()
-        {
-            sourcePile = board.Foundation[0];
-            Assert.IsFalse(MoveStockToTalon(sourcePile, movePile));
+            private GameBoard board;
+            private TalonPile talonPile;
+            private Pile sourcePile;
+            private Pile movePile;
+            [TestInitialize]
+            public void InitTests()
+            {
+                board = new GameBoard();
+                talonPile = board.Talon;
+                sourcePile = board.Stock;
+                movePile = new Pile();
+                populateMovePile();
+            }
+            private void populateMovePile()
+            {
+                var card = new Card(4,SuitType.Heart,false);
+                movePile.CardList.Add(card);    
+            }
+            [TestMethod]
+            public void MoveToShouldNotAcceptNullSourcePile()
+            {
+                Pile? sourcePile = null;
+                Assert.IsFalse(talonPile.MoveTo(sourcePile, movePile));
+            }
+            [TestMethod]
+            public void MoveToShouldNotAcceptAnEmptyMovePile()
+            {
+                movePile = new Pile();
+                Assert.IsFalse(talonPile.MoveTo(sourcePile, movePile));
+            }
+            [TestMethod]
+            public void MoveToShouldOnlyAcceptStockAsSourcePile()
+            {
+                sourcePile = board.Foundation[0];
+                Assert.IsFalse(talonPile.MoveTo(sourcePile, movePile));
+            }
+            [TestMethod]
+            public void TalonPileLengthShouldIncreaseByCardsInMovePile()
+            {
+                var talonStartingLength = talonPile.CardList.Count;
+                talonPile.MoveTo(sourcePile, movePile);
+                var talonEndLength = talonPile.CardList.Count;
+                Assert.AreEqual(movePile.CardList.Count, talonEndLength - talonStartingLength);
+            }
+            [TestMethod]
+            public void TalonPileCardsShouldAllBeFaceUpAfterMoveTo()
+            {
+                talonPile.MoveTo(sourcePile, movePile);
+                foreach(Card talonCard in talonPile.CardList)
+                {
+                    Assert.IsTrue(talonCard.isFaceUp);
+                }
+            }
+
         }
 
-        private bool MoveStockToTalon(Pile sourcePile, Pile movePile)
-        {
-            return talonPile.MoveTo(sourcePile, movePile);
-        }
     }
 }

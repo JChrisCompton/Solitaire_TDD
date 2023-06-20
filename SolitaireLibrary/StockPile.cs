@@ -22,5 +22,15 @@
             return returnPile;
         }
 
+        public bool Undo(Pile? movePile)
+        {
+            if (movePile == null || movePile.CardList.Count == 0) return false;
+            foreach( Card card in movePile.CardList )
+            {
+                card.isFaceUp = false;
+                CardList.Add(card);
+            }
+            return true;
+        }
     }
 }
