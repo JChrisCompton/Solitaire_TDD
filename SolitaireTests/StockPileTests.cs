@@ -16,7 +16,8 @@ namespace SolitaireTests
         private GameBoard board;
         private StockPile stockPile;
         private int topCardIndex;
-        [TestInitialize] public void Init() 
+        [TestInitialize] 
+        public void Init() 
         {
             board = new GameBoard();
             stockPile = board.Stock;
@@ -213,49 +214,133 @@ namespace SolitaireTests
             // was there an error, or success?
             Assert.IsFalse(isSuccess);
         }
-        [TestMethod]
-        public void TakeFromStockShouldNotBeNull()
+        [TestClass]
+        public class StockPileTakeFromTests
         {
-            Assert.IsNotNull(stockPile.TakeFrom(topCardIndex));
-        }
-        [TestMethod]
-        public void TakeFromStockShouldHave1Card()
-        {
-            Assert.AreEqual(stockPile.TakeFrom(topCardIndex).CardList.Count, 1);
-        }
-        [TestMethod]
-        public void ReturnedCardForTakeFromShouldEqualStartingTopCardOfStock()
-        {
-            var startingTopCard = stockPile.CardList[topCardIndex];
-            var returnPile = stockPile.TakeFrom(topCardIndex);
-            Assert.IsTrue(startingTopCard.Equals(returnPile.CardList.Last()));
-        }
-        [TestMethod]
-        public void TopCardofStockShouldNotBeTheSameAfterTakeFrom()
-        {
-            var startingTopCard = stockPile.CardList[topCardIndex];
-            stockPile.TakeFrom(topCardIndex);
-            var newTopCard = stockPile.CardList.Last();
-            Console.WriteLine(startingTopCard.Value + " " + startingTopCard.Suit);
-            Console.WriteLine(newTopCard.Value + " " + newTopCard.Suit);
-
-            Assert.IsFalse(startingTopCard.Equals(newTopCard)); 
-        }
-        [TestMethod]
-        public void TakeFromEmptyStockPileShouldReturnNull()
-        {
-            stockPile = new StockPile();
-            Assert.IsNull(stockPile.TakeFrom(0));
-        }
-        [TestMethod]
-        public void TakeFromStockPileShouldReturnCardsFaceUp()
-        {
-            var returnPile = stockPile.TakeFrom(topCardIndex);
-            foreach( Card card in returnPile.CardList)
+            private GameBoard board;
+            private StockPile stockPile;
+            private int topCardIndex;
+            [TestInitialize]
+            public void Init()
             {
-                Assert.IsTrue(card.isFaceUp);
+                board = new GameBoard();
+                stockPile = board.Stock;
+                PopulateStock();
+                topCardIndex = stockPile.CardList.Count - 1;
+
+            }
+            private void PopulateStock()
+            {
+                stockPile.CardList.Add(new Card(2, SuitType.Spade, false));
+                stockPile.CardList.Add(new Card(3, SuitType.Spade, false));
+                stockPile.CardList.Add(new Card(4, SuitType.Spade, false));
+            }
+            [TestMethod]
+            public void TakeFromStockShouldNotBeNull()
+            {
+                Assert.IsNotNull(stockPile.TakeFrom(topCardIndex));
+            }
+            [TestMethod]
+            public void TakeFromStockShouldHave1Card()
+            {
+                Assert.AreEqual(stockPile.TakeFrom(topCardIndex).CardList.Count, 1);
+            }
+            [TestMethod]
+            public void ReturnedCardForTakeFromShouldEqualStartingTopCardOfStock()
+            {
+                var startingTopCard = stockPile.CardList[topCardIndex];
+                var returnPile = stockPile.TakeFrom(topCardIndex);
+                Assert.IsTrue(startingTopCard.Equals(returnPile.CardList.Last()));
+            }
+            [TestMethod]
+            public void TopCardofStockShouldNotBeTheSameAfterTakeFrom()
+            {
+                var startingTopCard = stockPile.CardList[topCardIndex];
+                stockPile.TakeFrom(topCardIndex);
+                var newTopCard = stockPile.CardList.Last();
+                Console.WriteLine(startingTopCard.Value + " " + startingTopCard.Suit);
+                Console.WriteLine(newTopCard.Value + " " + newTopCard.Suit);
+
+                Assert.IsFalse(startingTopCard.Equals(newTopCard));
+            }
+            [TestMethod]
+            public void TakeFromEmptyStockPileShouldReturnNull()
+            {
+                stockPile = new StockPile();
+                Assert.IsNull(stockPile.TakeFrom(0));
+            }
+            [TestMethod]
+            public void TakeFromStockPileShouldReturnCardsFaceUp()
+            {
+                var returnPile = stockPile.TakeFrom(topCardIndex);
+                foreach (Card card in returnPile.CardList)
+                {
+                    Assert.IsTrue(card.isFaceUp);
+                }
+            }
+
+        }
+        [TestClass]
+        public class StockPileUndoTests
+        {
+            private Pile movePile;
+            private StockPile stockPile = new StockPile();
+            [TestInitialize]
+            public void initUndo()
+            {
+                movePile = new Pile();
+                populateMovePile();
+
+            }
+            private void populateMovePile()
+            {
+                var moveCard = new Card(3, SuitType.Heart, true);
+                movePile.CardList.Add(moveCard);
+            }
+            [TestMethod]
+            public void UndoMovePileShouldNotBeNull()
+            {
+                movePile = null;
+                var undoResults = stockPile.Undo(movePile);
+                Assert.IsFalse(undoResults);
+            }
+            [TestMethod]
+            public void UndoMovePileShouldNotBeEmpty()
+            {
+                movePile = new Pile();
+                Assert.IsFalse(stockPile.Undo(movePile));
+            }
+            [TestMethod]
+            public void StockPileLenthShouldIncreaseByTheLengthOfTheMovePile()
+            {
+                int stockLengthBefore = stockPile.CardList.Count;
+                stockPile.Undo(movePile);
+                var stockLengthAfter = stockPile.CardList.Count;
+                Assert.AreEqual(movePile.CardList.Count, stockLengthAfter - stockLengthBefore);
+            }
+            [TestMethod]
+            public void TopCardsInStockPileAfterUndoShouldMatchMovePile()
+            {
+                stockPile.Undo(movePile);
+                int stockCardIndex = stockPile.CardList.Count - 1;
+                foreach (Card movePileCard in movePile.CardList)
+                {
+                    var stockCard = stockPile.CardList[stockCardIndex];
+                    Assert.IsTrue(stockCard.Equals(movePileCard));
+                    stockCardIndex--;                   
+                }
+            }
+            [TestMethod]
+            public void StockCardsShouldAllBeFaceDownAfterUndo()
+            {
+                stockPile.Undo(movePile);
+                foreach(Card stockCard in stockPile.CardList)
+                {
+                    Assert.IsFalse(stockCard.isFaceUp);
+                }
             }
         }
+
 
     }
 }
