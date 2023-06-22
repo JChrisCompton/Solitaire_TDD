@@ -15,8 +15,8 @@
         {
             if (CardList.Count == 0) return null; 
             var returnPile = new Pile();
-            var addCard = CardList[StartCardIndex];
-            if (!addCard.isFaceUp) addCard.isFaceUp = true;
+            var addCard = CardList[StartCardIndex]; //TODO 3 card pull not coded for
+            addCard.isFaceUp = true; //TODO Too much knowledge of the Card class?
             returnPile.CardList.Add(addCard);
             CardList.Remove(CardList[StartCardIndex]);
             return returnPile;
