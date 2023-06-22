@@ -4,6 +4,30 @@ Design decisions are written in MS Word saved as .htm  and is located here: JChr
 
 ---
 
+
+## TDD Class Diagrams
+```mermaid
+classDiagram
+	class Pile {
+		+CardList : List(Card)
+		+InProgressCardList : List(Card)
+		+Pile() : bool
+		+AddCard : Card
+		+AddCard() IEnumerable~Validation~Result~
+	}
+	
+	class iPile {
+		+CardList : List(Card)
+		+InProgressCardList : List(Card)
+		+FirstName : string
+		+LastName : string
+		+Address Add
+		+Validate() IEnumerable~Validation~Result~
+	
+	}
+TalonPile ..|> iPile : implements
+```
+
 # Markdown practice 
 This is practice with markdown.
 ## This IS NOT related to the TDD project!
@@ -12,26 +36,7 @@ This is practice with markdown.
 This is all Markdown practice:
 
 
-## Flowcharts
-
-```mermaid
-graph LR
-	A --> B
-	A --> C
-	B --> D
-	C --> D
-```
-
-```mermaid
-graph TD
-	A[Start] -.-> B(Process 1)
-	A --> C[[Process 2]]
-	B ==o D(Stop)
-	C --> D
-```
-
-## Class Diagrams
-
+## Class Diagrams Sample
 ```mermaid
 classDiagram
 	class IValidatableObject {
@@ -58,6 +63,45 @@ classDiagram
 	}
 	Person ..|> IValidatableObject : implements
 	Person "1" --> "0..1" Address
+```
+
+## Flowcharts
+
+```mermaid
+graph LR
+	A --> B
+	A --> C
+	B --> D
+	C --> D
+```
+
+```mermaid
+graph TD
+	A[Start] -.-> B(Process 1)
+	A --> C[[Process 2]]
+	B ==o D(Stop)
+	C --> D
+```
+
+## Table Diagrams
+```mermaid
+erDiagram
+    
+    CUSTOMER {
+        string name
+        string custNumber
+        string sector
+    }
+    ORDER ||--|{ LINE-ITEM : contains
+    ORDER {
+        int orderNumber
+        string deliveryAddress
+    }
+    LINE-ITEM {
+        string productCode
+        int quantity
+        float pricePerUnit
+    }
 ```
 
 		-privateProperty : string
