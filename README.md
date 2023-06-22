@@ -8,6 +8,26 @@ Design decisions are written in MS Word saved as .htm  and is located here: JChr
 
 ```mermaid
 classDiagram
+	class FoundationPile {
+		MoveTo[Pile, int] : bool
+		+FoundationPile : (constructor)
+	}
+	FoundationPile ..|> Pile : implements
+	class StockPile {
+		MoveTo[Pile, int] : bool
+		+StockPile : (constructor)
+	}
+	StockPile ..|> Pile : implements
+	class TableauPile {
+		MoveTo[Pile, int] : bool
+		+TableauPile : (constructor)
+	}
+	TableauPile ..|> Pile : implements
+	class TalonPile {
+		MoveTo[Pile, int] : bool
+		+TalonPile : (constructor)
+	}
+	TalonPile ..|> Pile : implements
 	class Pile {
 		+AddCard[Card] : bool
 		TakeFrom[Pile, int] : bool
