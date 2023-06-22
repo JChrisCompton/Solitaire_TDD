@@ -4,29 +4,29 @@ Design decisions are written in MS Word saved as .htm  and is located here: JChr
 
 ---
 
+## TDD Class Diagram Attempt
 
-## TDD Class Diagrams
 ```mermaid
 classDiagram
 	class Pile {
+		+AddCard[Card] : bool
+		TakeFrom[Pile, int] : bool
+		MoveTo[Pile, int] : bool
+		MoveStockToTalon[StockPile, TalonPile, int] : bool
+		GetPileContents[Pile] : string
+		-InProgressCardList : List(Card)
 		+CardList : List(Card)
-		+InProgressCardList : List(Card)
-		+Pile() : bool
-		+AddCard : Card
-		+AddCard() IEnumerable~Validation~Result~
+		+Pile : (constructor)
 	}
-	
+	Pile ..|> iPile : implements
 	class iPile {
-		+CardList : List(Card)
-		+InProgressCardList : List(Card)
-		+FirstName : string
-		+LastName : string
-		+Address Add
-		+Validate() IEnumerable~Validation~Result~
-	
+		+CardList : List[Card]
+		+AddCard[Card] : bool
 	}
-TalonPile ..|> iPile : implements
+	
 ```
+
+- - -
 
 # Markdown practice 
 This is practice with markdown.
@@ -35,8 +35,8 @@ This is practice with markdown.
 
 This is all Markdown practice:
 
+## Class Diagram Sample
 
-## Class Diagrams Sample
 ```mermaid
 classDiagram
 	class IValidatableObject {
@@ -51,7 +51,7 @@ classDiagram
 		+State : string
 		+ZipCode : string
 	}
-	Address ..|> IValidatableObject : implements
+	Address ..|> IValidatableObject : implements2
 	class Person {
 		+Id : GUID
 		+FirstName : string
@@ -64,6 +64,12 @@ classDiagram
 	Person ..|> IValidatableObject : implements
 	Person "1" --> "0..1" Address
 ```
+
+		-privateProperty : string
+		#ProtectedProperty : string
+		%InternalProperty : string
+Internal should be a tilda "~", but we're using a percent "%" because the markdown editor is a little broken.
+
 
 ## Flowcharts
 
@@ -82,30 +88,4 @@ graph TD
 	B ==o D(Stop)
 	C --> D
 ```
-
-## Table Diagrams
-```mermaid
-erDiagram
-    
-    CUSTOMER {
-        string name
-        string custNumber
-        string sector
-    }
-    ORDER ||--|{ LINE-ITEM : contains
-    ORDER {
-        int orderNumber
-        string deliveryAddress
-    }
-    LINE-ITEM {
-        string productCode
-        int quantity
-        float pricePerUnit
-    }
-```
-
-		-privateProperty : string
-		#ProtectedProperty : string
-		%InternalProperty : string
-Internal should be a tilda "~", but we're using a percent "%" because the markdown editor is a little broken.
 
