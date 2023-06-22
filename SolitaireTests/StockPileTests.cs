@@ -267,7 +267,9 @@ namespace SolitaireTests
             public void TakeFromEmptyStockPileShouldReturnNull()
             {
                 stockPile = new StockPile();
-                Assert.IsNull(stockPile.TakeFrom(0));
+                /* TODO Being forced to put 0 in the TakeFrom method points to a design flaw.
+                        How do we prevent TakeFrom being called if the pile is empty? */
+                Assert.IsNull(stockPile.TakeFrom(0));   
             }
             [TestMethod]
             public void TakeFromStockPileShouldReturnCardsFaceUp()
@@ -294,8 +296,7 @@ namespace SolitaireTests
             }
             private void populateMovePile()
             {
-                var moveCard = new Card(3, SuitType.Heart, true);
-                movePile.CardList.Add(moveCard);
+                movePile.CardList.Add(new Card(3, SuitType.Heart, true));
             }
             [TestMethod]
             public void UndoMovePileShouldNotBeNull()
